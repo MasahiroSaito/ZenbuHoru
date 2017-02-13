@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Spigot Plugin in Gradle template
+.gradle/
+src/test/
+.idea/
+gradle.properties
+build/

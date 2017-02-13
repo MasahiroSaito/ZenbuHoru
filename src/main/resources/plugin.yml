@@ -1,0 +1,8 @@
+name: ZenbuHoru
+version: @version@
+main: com.masahirosaito.spigot.zenbuhoru.ZenbuHoru
+prefix: ZenbuHoru
+depend: [MSCore]
+authors: [MasahiroSaito]
+description: 鉱石を全部掘ります
+website: https://github.com/MasahiroSaito/ZenbuHoru
