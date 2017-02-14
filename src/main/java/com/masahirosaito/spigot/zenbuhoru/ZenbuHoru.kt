@@ -9,7 +9,7 @@ class ZenbuHoru : JavaPlugin() {
     lateinit var messenger: Messenger
 
     override fun onEnable() {
-        messenger = Messenger(this, false)
+        messenger = Messenger(this, true)
 
         BlockBreakEventListener(this).register(this)
     }

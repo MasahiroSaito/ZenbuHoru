@@ -1,33 +1,39 @@
 package com.masahirosaito.spigot.zenbuhoru.players
 
+import com.masahirosaito.spigot.mscore.utils.call
 import com.masahirosaito.spigot.mscore.utils.isCreativeMode
-import com.masahirosaito.spigot.mscore.utils.itemInMainHand
-import com.masahirosaito.spigot.zenbuhoru.tools.PickAxe
+import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.Sound
 import org.bukkit.Statistic
+import org.bukkit.entity.ExperienceOrb
 import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerStatisticIncrementEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.plugin.java.JavaPlugin
 
-class MinePlayer(val player: Player) {
-    val tool = PickAxe(player.itemInMainHand())
+class MinePlayer(val player: Player, val plugin: JavaPlugin) {
 
     fun isValid(): Boolean = when {
-        !tool.isValid() -> false
+        isCreative() -> false
         else -> true
     }
 
+    fun location(): Location = player.location
+
+    fun spawnItem(itemStack: ItemStack) {
+        location().world.dropItemNaturally(location(), itemStack)
+    }
+
+    fun spawnExp(amount: Int) {
+        location().world.spawn(location(), ExperienceOrb::class.java).experience = amount
+    }
+
     fun incrementStatics(statistic: Statistic, material: Material, amount: Int) {
-        player.incrementStatistic(statistic, material, amount)
-    }
-
-    fun breakItemInMainHand() {
-        player.world.playSound(player.location, Sound.ENTITY_ITEM_BREAK, 1f, 1f)
-        player.inventory.itemInMainHand = ItemStack(Material.AIR)
-    }
-
-    fun damageToTool(amount: Int) {
-        if (tool.damage(amount)) if (tool.isBroken()) breakItemInMainHand()
+        player.getStatistic(statistic, material).let {
+            PlayerStatisticIncrementEvent(player, statistic, it, it + amount, material).call(plugin).apply {
+                if (!isCancelled) this.player.incrementStatistic(this.statistic, this.material)
+            }
+        }
     }
 
     fun isCreative() = player.isCreativeMode()

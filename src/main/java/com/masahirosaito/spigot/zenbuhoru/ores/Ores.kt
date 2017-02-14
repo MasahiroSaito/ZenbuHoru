@@ -1,26 +1,26 @@
 package com.masahirosaito.spigot.zenbuhoru.ores
 
 import com.masahirosaito.spigot.mscore.utils.getRelatives
-import com.masahirosaito.spigot.zenbuhoru.ZenbuHoru
 import net.minecraft.server.v1_10_R1.BlockPosition
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
+import org.bukkit.plugin.java.JavaPlugin
 
-class Ores(val block: Block, val plugin: ZenbuHoru) {
+class Ores(val block: Block, val plugin: JavaPlugin) {
     val valid = isValid()
     val type: Material = block.type
     val blocks = if (valid) getRelativeOres(block) else emptySet<Block>()
-
-    fun size(): Int = blocks.size
+    val brokenBlocks = mutableSetOf<Block>()
 
     fun breakAll(player: Player) {
         blocks.forEach {
             it.setMetadata(plugin.name, FixedMetadataValue(plugin, player))
             (player as CraftPlayer).handle.playerInteractManager.breakBlock(BlockPosition(it.x, it.y, it.z))
             it.removeMetadata(plugin.name, plugin)
+            brokenBlocks.add(it)
         }
     }
 
