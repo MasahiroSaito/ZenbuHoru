@@ -1,20 +1,14 @@
 package com.masahirosaito.spigot.zenbuhoru.listeners
 
 import com.masahirosaito.spigot.mscore.utils.getRemainingDurability
-import com.masahirosaito.spigot.mscore.utils.itemInMainHand
 import com.masahirosaito.spigot.zenbuhoru.ZenbuHoru
 import com.masahirosaito.spigot.zenbuhoru.ores.Ores
 import com.masahirosaito.spigot.zenbuhoru.players.MinePlayer
 import com.masahirosaito.spigot.zenbuhoru.tools.PickAxe
-import net.minecraft.server.v1_10_R1.BlockPosition
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.Statistic
 import org.bukkit.block.Block
-import org.bukkit.craftbukkit.v1_10_R1.CraftWorld
-import org.bukkit.craftbukkit.v1_10_R1.block.CraftBlock
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer
-import org.bukkit.craftbukkit.v1_10_R1.event.CraftEventFactory
 import org.bukkit.entity.Item
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -22,7 +16,6 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.inventory.ItemStack
-import org.bukkit.metadata.FixedMetadataValue
 
 class BlockBreakEventListener(val plugin: ZenbuHoru) : Listener {
 
@@ -47,18 +40,6 @@ class BlockBreakEventListener(val plugin: ZenbuHoru) : Listener {
                 dropExperience += event.expToDrop
                 event.expToDrop = 0
             }
-
-//            minePlayer.incrementStatics(Statistic.MINE_BLOCK, event.block.type, 1)
-
-//            event.block.drops.forEach {
-//                items.put(it.type, (items[it.type] ?: 0) + it.amount)
-//                minePlayer.spawnItem(it)
-//            }
-//            event.block.type = Material.AIR
-//
-//            tool.damage(1)
-//
-//            breakBlockNum++
 
         } else {
 
