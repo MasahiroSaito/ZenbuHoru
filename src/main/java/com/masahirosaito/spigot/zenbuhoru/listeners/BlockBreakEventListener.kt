@@ -27,9 +27,9 @@ class BlockBreakEventListener(val plugin: ZenbuHoru) : Listener {
     fun onBreakOre(event: BlockBreakEvent) {
         if (event.isCancelled) return
 
-        val minePlayer = MinePlayer(event.player, plugin).apply { if (!isValid()) return }
+        val minePlayer = MinePlayer(event.player).apply { if (!isValid()) return }
 
-        val tool = PickAxe(event.player, plugin)
+        val tool = PickAxe(event.player)
 
         if (event.block.hasMetadata(plugin.name)) {
 
